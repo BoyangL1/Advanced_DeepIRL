@@ -53,19 +53,30 @@ feat_map = np.array(feat_map)
 gpd_file = './data/nanshan.shp'
 route_file_path = './data/routes_states'
 
-nn_r = DeepIRLFC(feat_map.shape[1], LEARNING_RATE, [0,0,0,0,0], 40, 30) # initialize the deep-network
+nn_r = DeepIRLFC(feat_map.shape[1], LEARNING_RATE, [
+                 0, 0, 0, 0, 0], 40, 30)  # initialize the deep-network
+
+T0 = time.time()
+now_time = datetime.datetime.now()
+print('this training loop start at {}'.format(now_time))
+
 for iteration in range(N_ITERS):
+    T1 = time.time()
     for f in os.listdir(route_file_path):
         genderAge = [0]*5
-        genderAge[int(f[0])], genderAge[int(f[2])] = 1, 1
-        trajs=[]
+        gender,age=int(f[0]),int(f[2])
+        genderAge[gender], genderAge[age] = 1, 1
+        trajs = []
         routes_states = np.load(route_file_path+'/'+f)
         for route_state in routes_states:
             sta_act = getActionOfStates(route_state)
             trajs.append(sta_act)
-        rewards = deepMaxEntIRL2(nn_r,feat_map, p_a, GAMMA, trajs,
+        rewards, nn_r = deepMaxEntIRL2(nn_r, feat_map, p_a, GAMMA, trajs,
                                  LEARNING_RATE, fnid_idx, idx_fnid, gpd_file, genderAge, RESTORE)
-        
+
+    T2 = time.time()
+    print("this iteration lasts {:.2f}s, the loop lasts {:.2f}s, the {}th iteration end at {}".format(
+        T2-T1, T2-T0, iteration, datetime.datetime.now()))
 # img_utils.rewardVisual(rewards, idx_fnid, gpd_file,"recovered reward map")
 # plt.savefig('./img/reward_final.png')
 # plt.show()

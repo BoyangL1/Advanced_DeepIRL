@@ -86,7 +86,7 @@ class DeepIRLFC:
         return self.sess.run(self.theta)
 
     def get_rewards(self, states):
-        onehot=[self.genderAge for _ in range(len(states))]
+        onehot = [self.genderAge for _ in range(len(states))]
         rewards = self.sess.run(self.reward, feed_dict={
                                 self.input_s: states, self.input_onehot: onehot})
         return rewards
@@ -168,7 +168,7 @@ def stateVisitFreq(trajs, fnid_idx, n_states):
     return p
 
 
-def deepMaxEntIRL(feat_map, P_a, gamma, trajs, lr, n_iters, fnid_idx, idx_fnid, gpd_file, genderAge,restore=True):
+def deepMaxEntIRL(feat_map, P_a, gamma, trajs, lr, n_iters, fnid_idx, idx_fnid, gpd_file, genderAge, restore=True):
     """
     Maximum Entropy Inverse Reinforcement Learning (Maxent IRL)
 
@@ -253,7 +253,37 @@ def deepMaxEntIRL(feat_map, P_a, gamma, trajs, lr, n_iters, fnid_idx, idx_fnid, 
     rewards = nn_r.get_rewards(feat_map)
     return normalize(rewards)
 
-def deepMaxEntIRL2(neural_network, feat_map, P_a, gamma, trajs, lr, fnid_idx, idx_fnid, gpd_file, genderAge,restore=True):
-    neural_network.genderAge=genderAge
-    print(neural_network.genderAge)
-    return 0
+
+def deepMaxEntIRL2(nn_r, feat_map, P_a, gamma, trajs, lr, fnid_idx, idx_fnid, gpd_file, genderAge, restore):
+    N_STATES, _, N_ACTIONS = np.shape(P_a)
+    nn_r.genderAge = genderAge
+
+    # restore graph
+    model_file = './model'
+    model_name = 'realworld'
+    if restore and os.path.exists(os.path.join(model_file, model_name+'.meta')):
+        print('restore graph from ckpt file')
+        nn_r.restoreGraph(model_file, model_name)
+
+    # find state visitation frequencies using demonstrations
+    mu_D = stateVisitFreq(trajs, fnid_idx, N_STATES)
+    # optimize the neural network by the difference between 
+    # expected svf(state visit frequency) and real svf
+    rewards = nn_r.get_rewards(feat_map)
+    values, policy = value_iteration.value_iteration(
+        P_a, rewards, gamma, error=0.01, deterministic=True)
+    np.save("./model/policy_realworld.npy", policy)
+    print("The calculation of value and policy is finished!")
+    # compute expected svf
+    mu_exp = expectStateVisitFreq(
+        P_a, gamma, trajs, fnid_idx, policy, deterministic=True)
+    # compute gradients on rewards:
+    grad_r = mu_D - mu_exp
+    print("visit frequency difference is {}".format(np.mean(grad_r)))
+    # apply gradients to the neural network
+    grad_theta, l2_loss, grad_norm = nn_r.apply_grads(feat_map, grad_r)
+
+    # Store model weights —— ckpt format
+    tf.train.Saver().save(nn_r.sess, './model/realworld')
+
+    return normalize(rewards), nn_r
