@@ -1,0 +1,5 @@
+./data
+./img
+./test.py
+**/__pycache__
+**/.vscode
