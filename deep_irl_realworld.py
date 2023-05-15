@@ -33,13 +33,12 @@ class DeepIRLFC:
         self.sess = tf.Session()
         self.input_s, self.reward, self.theta, self.input_onehot = self._build_network(
             self.name)
-
         self.optimizer = tf.train.GradientDescentOptimizer(lr)
         # apply l2 loss gradient
         self.l2_loss = tf.add_n([tf.nn.l2_loss(v) for v in self.theta])
         self.grad_l2 = tf.gradients(ys=self.l2_loss, xs=self.theta)
-        self.grad_r = tf.placeholder(tf.float32, [None, 1])
-        self.grad_theta = tf.gradients(self.reward, self.theta, -self.grad_r)
+        self.grad_reward = tf.placeholder(tf.float32, [None, 1])
+        self.grad_theta = tf.gradients(self.reward, self.theta, -self.grad_reward)
         self.grad_theta = [tf.add(l2*self.grad_l2[i], self.grad_theta[i])
                            for i in range(len(self.grad_l2))]
         # Gradient Clipping
@@ -57,7 +56,10 @@ class DeepIRLFC:
             name (string): variable scope
 
         Returns:
-            input_s,reward,theta: features of states,reward of states,trainable parameters
+            input_s: features of states
+            reward: reward of states
+            theta: trainable parameters
+            input_onehot= gender and age parameters
         """
         input_s = tf.placeholder(tf.float32, [None, self.n_input])
         input_onehot = tf.placeholder(tf.float32, [None, len(self.genderAge)])
@@ -72,7 +74,7 @@ class DeepIRLFC:
             fc4 = tf_utils.fc(fc3, self.n_h2, scope="fc4", activation_fn=tf.nn.elu,
                               initializer=tf.contrib.layers.variance_scaling_initializer(mode="FAN_IN"))
 
-            fc_contact = tf.concat(0, [fc2, fc4])
+            fc_contact = tf.concat(1, [fc2, fc4])
 
             fc_final = tf_utils.fc(fc_contact, self.n_h2, scope="fc_final", activation_fn=tf.nn.elu,
                                    initializer=tf.contrib.layers.variance_scaling_initializer(mode="FAN_IN"))
@@ -85,17 +87,16 @@ class DeepIRLFC:
     def get_theta(self):
         return self.sess.run(self.theta)
 
-    def get_rewards(self, states):
-        onehot = [self.genderAge for _ in range(len(states))]
+    def get_rewards(self, states, oh):
         rewards = self.sess.run(self.reward, feed_dict={
-                                self.input_s: states, self.input_onehot: onehot})
+                                self.input_s: states, self.input_onehot: oh})
         return rewards
 
-    def apply_grads(self, feat_map, grad_r):
+    def apply_grads(self, feat_map, grad_r,oh):
         grad_r = np.reshape(grad_r, [-1, 1])
         feat_map = np.reshape(feat_map, [-1, self.n_input])
         _, grad_theta, l2_loss, grad_norms = self.sess.run([self.optimize, self.grad_theta, self.l2_loss, self.grad_norms],
-                                                           feed_dict={self.grad_r: grad_r, self.input_s: feat_map})
+                                                           feed_dict={self.grad_reward: grad_r, self.input_s: feat_map, self.input_onehot: oh})
         return grad_theta, l2_loss, grad_norms
 
     def restoreGraph(self, model_file, model_name):
@@ -241,7 +242,7 @@ def deepMaxEntIRL(feat_map, P_a, gamma, trajs, lr, n_iters, fnid_idx, idx_fnid, 
         grad_r = mu_D - mu_exp
         print("visit frequency difference is {}".format(np.mean(grad_r)))
         # apply gradients to the neural network
-        grad_theta, l2_loss, grad_norm = nn_r.apply_grads(feat_map, grad_r)
+        _, _, _ = nn_r.apply_grads(feat_map, grad_r)
         # calculate time pass
         T2 = time.time()
         print("this iteration lasts {:.2f},the loop lasts {:.2f}".format(
@@ -269,7 +270,8 @@ def deepMaxEntIRL2(nn_r, feat_map, P_a, gamma, trajs, lr, fnid_idx, idx_fnid, gp
     mu_D = stateVisitFreq(trajs, fnid_idx, N_STATES)
     # optimize the neural network by the difference between 
     # expected svf(state visit frequency) and real svf
-    rewards = nn_r.get_rewards(feat_map)
+    oh = [genderAge for _ in range(feat_map.shape[0])]
+    rewards = nn_r.get_rewards(feat_map, oh)
     values, policy = value_iteration.value_iteration(
         P_a, rewards, gamma, error=0.01, deterministic=True)
     np.save("./model/policy_realworld.npy", policy)
@@ -281,9 +283,10 @@ def deepMaxEntIRL2(nn_r, feat_map, P_a, gamma, trajs, lr, fnid_idx, idx_fnid, gp
     grad_r = mu_D - mu_exp
     print("visit frequency difference is {}".format(np.mean(grad_r)))
     # apply gradients to the neural network
-    grad_theta, l2_loss, grad_norm = nn_r.apply_grads(feat_map, grad_r)
+    _,_,_ = nn_r.apply_grads(feat_map, grad_r, oh)
 
-    # Store model weights —— ckpt format
-    tf.train.Saver().save(nn_r.sess, './model/realworld')
+    # Store model weights 
+    tf.train.Saver().save(nn_r.sess, './model/realworld') # ckpt
+    np.save('./model/policy_realworld.npy', policy) # npy
 
     return normalize(rewards), nn_r

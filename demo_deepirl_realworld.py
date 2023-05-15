@@ -56,12 +56,14 @@ route_file_path = './data/routes_states'
 nn_r = DeepIRLFC(feat_map.shape[1], LEARNING_RATE, [
                  0, 0, 0, 0, 0], 40, 30)  # initialize the deep-network
 
+pre_reward= np.zeros((2,3,feat_map.shape[0]),dtype=float)
+
 T0 = time.time()
 now_time = datetime.datetime.now()
 print('this training loop start at {}'.format(now_time))
-
 for iteration in range(N_ITERS):
     T1 = time.time()
+    this_reward=np.zeros((2,3,feat_map.shape[0]))
     for f in os.listdir(route_file_path):
         genderAge = [0]*5
         gender,age=int(f[0]),int(f[2])
@@ -73,6 +75,14 @@ for iteration in range(N_ITERS):
             trajs.append(sta_act)
         rewards, nn_r = deepMaxEntIRL2(nn_r, feat_map, p_a, GAMMA, trajs,
                                  LEARNING_RATE, fnid_idx, idx_fnid, gpd_file, genderAge, RESTORE)
+        this_reward[gender,age-2,:]=np.array(rewards).reshape(feat_map.shape[0])
+
+    reward_difference=np.mean(this_reward-pre_reward)
+    print("the current reward difference is {}".format(reward_difference))
+    if abs(reward_difference) <= 0.001:
+        print('the difference of reward is less than 0.001, then break the loop')
+        break
+    pre_reward=this_reward
 
     T2 = time.time()
     print("this iteration lasts {:.2f}s, the loop lasts {:.2f}s, the {}th iteration end at {}".format(
