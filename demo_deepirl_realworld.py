@@ -77,16 +77,16 @@ for iteration in range(N_ITERS):
                                  LEARNING_RATE, fnid_idx, idx_fnid, gpd_file, genderAge, RESTORE)
         this_reward[gender,age-2,:]=np.array(rewards).reshape(feat_map.shape[0])
 
+    T2 = time.time()
+    print("this iteration lasts {:.2f}s, the loop lasts {:.2f}s, the {}th iteration end at {}".format(
+        T2-T1, T2-T0, iteration, datetime.datetime.now()))
+    
     reward_difference=np.mean(this_reward-pre_reward)
     print("the current reward difference is {}".format(reward_difference))
     if abs(reward_difference) <= 0.001:
         print('the difference of reward is less than 0.001, then break the loop')
         break
-    pre_reward=this_reward
-
-    T2 = time.time()
-    print("this iteration lasts {:.2f}s, the loop lasts {:.2f}s, the {}th iteration end at {}".format(
-        T2-T1, T2-T0, iteration, datetime.datetime.now()))
+    pre_reward=this_reward  
 # img_utils.rewardVisual(rewards, idx_fnid, gpd_file,"recovered reward map")
 # plt.savefig('./img/reward_final.png')
 # plt.show()
