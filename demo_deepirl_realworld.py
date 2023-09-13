@@ -32,8 +32,8 @@ N_ITERS = ARGS.n_iters
 RESTORE = ARGS.restore
 
 # get the transition probability between states
-feature_map_file = './data/nanshan_tfidf.xlsx'
-feature_map_excel = pd.read_excel(feature_map_file)
+feature_map_file = './data/nanshan_SF.csv'
+feature_map_excel = pd.read_csv(feature_map_file)
 states_list = list(feature_map_excel['fnid'])
 fnid_idx = {}
 idx_fnid = {}
@@ -43,51 +43,49 @@ for i in range(len(states_list)):
 grid = real_grid.RealGridWorld(fnid_idx, idx_fnid, 1-ACT_RAND)
 p_a = grid.get_transition_mat()
 # get feature map of state
-feature_map1 = feature_map_excel.iloc[:, 3:12]
-feature_map2 = feature_map_excel.iloc[:, 14:35]
+feat_map = feature_map_excel.iloc[:, 1:]
 index_fnid = feature_map_excel['fnid']
-feat_map = pd.concat([feature_map1, feature_map2], axis=1)
 feat_map = np.array(feat_map)
 
-# train the deep-irl
-gpd_file = './data/nanshan.shp'
-route_file_path = './data/routes_states'
+# # train the deep-irl
+# gpd_file = './data/nanshan_grid.shp'
+# route_file_path = './data/routes_states'
 
-nn_r = DeepIRLFC(feat_map.shape[1], LEARNING_RATE, [
-                 0, 0, 0, 0, 0], 40, 30)  # initialize the deep-network
+# nn_r = DeepIRLFC(feat_map.shape[1], LEARNING_RATE, [
+#                  0, 0, 0, 0, 0], 40, 30)  # initialize the deep-network
 
-pre_reward= np.zeros((2,3,feat_map.shape[0]),dtype=float)
+# pre_reward= np.zeros((2,3,feat_map.shape[0]),dtype=float)
 
-T0 = time.time()
-now_time = datetime.datetime.now()
-print('this training loop start at {}'.format(now_time))
-for iteration in range(N_ITERS):
-    T1 = time.time()
-    this_reward=np.zeros((2,3,feat_map.shape[0]))
-    for f in os.listdir(route_file_path):
-        genderAge = [0]*5
-        gender,age=int(f[0]),int(f[2])
-        genderAge[gender], genderAge[age] = 1, 1
-        trajs = []
-        routes_states = np.load(route_file_path+'/'+f)
-        for route_state in routes_states:
-            sta_act = getActionOfStates(route_state)
-            trajs.append(sta_act)
-        rewards, nn_r = deepMaxEntIRL2(nn_r, feat_map, p_a, GAMMA, trajs,
-                                 LEARNING_RATE, fnid_idx, idx_fnid, gpd_file, genderAge, RESTORE)
-        this_reward[gender,age-2,:]=np.array(rewards).reshape(feat_map.shape[0])
+# T0 = time.time()
+# now_time = datetime.datetime.now()
+# print('this training loop start at {}'.format(now_time))
+# for iteration in range(N_ITERS):
+#     T1 = time.time()
+#     this_reward=np.zeros((2,3,feat_map.shape[0]))
+#     for f in os.listdir(route_file_path):
+#         genderAge = [0]*5
+#         gender,age=int(f[0]),int(f[2])
+#         genderAge[gender], genderAge[age] = 1, 1
+#         trajs = []
+#         routes_states = np.load(route_file_path+'/'+f)
+#         for route_state in routes_states:
+#             sta_act = getActionOfStates(route_state)
+#             trajs.append(sta_act)
+#         rewards, nn_r = deepMaxEntIRL2(nn_r, feat_map, p_a, GAMMA, trajs,
+#                                  LEARNING_RATE, fnid_idx, idx_fnid, gpd_file, genderAge, RESTORE)
+#         this_reward[gender,age-2,:]=np.array(rewards).reshape(feat_map.shape[0])
 
-    T2 = time.time()
-    print("this iteration lasts {:.2f}s, the loop lasts {:.2f}s, the {}th iteration end at {}".format(
-        T2-T1, T2-T0, iteration, datetime.datetime.now()))
+#     T2 = time.time()
+#     print("this iteration lasts {:.2f}s, the loop lasts {:.2f}s, the {}th iteration end at {}".format(
+#         T2-T1, T2-T0, iteration, datetime.datetime.now()))
     
-    reward_difference=np.mean(this_reward-pre_reward)
-    print("the current reward difference is {}".format(reward_difference))
-    if abs(reward_difference) <= 0.001:
-        print('the difference of reward is less than 0.001, then break the loop')
-        break
-    pre_reward=this_reward  
-# img_utils.rewardVisual(rewards, idx_fnid, gpd_file,"recovered reward map")
-# plt.savefig('./img/reward_final.png')
-# plt.show()
-# plt.close()
+#     reward_difference=np.mean(this_reward-pre_reward)
+#     print("the current reward difference is {}".format(reward_difference))
+#     if abs(reward_difference) <= 0.001:
+#         print('the difference of reward is less than 0.001, then break the loop')
+#         break
+#     pre_reward=this_reward  
+# # img_utils.rewardVisual(rewards, idx_fnid, gpd_file,"recovered reward map")
+# # plt.savefig('./img/reward_final.png')
+# # plt.show()
+# # plt.close()

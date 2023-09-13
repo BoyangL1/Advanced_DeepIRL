@@ -10,7 +10,7 @@ ACT_RAND = 0.3
 
 def readFeatureMap(feature_map_file):
     """
-    read feature map from xlsx feature file
+    read feature map from csv feature file
 
     Args:
         feature_map_file : path of feature file
@@ -20,7 +20,7 @@ def readFeatureMap(feature_map_file):
         fnid_idx:{fnid:idx}
         idx_fnid:{idx:fnid}
     """
-    feature_map_excel = pd.read_excel(feature_map_file)
+    feature_map_excel = pd.read_csv(feature_map_file)
     states_list = list(feature_map_excel['fnid'])
     fnid_idx = {}
     idx_fnid = {}
@@ -28,9 +28,9 @@ def readFeatureMap(feature_map_file):
         fnid_idx.update({states_list[i]: i})
         idx_fnid.update({i: states_list[i]})
     states_list = list(feature_map_excel['fnid'])
-    # get feature map of state
-    feature_map1 = feature_map_excel.iloc[:, 2:11] # 3:12
-    feature_map2 = feature_map_excel.iloc[:, 11:] # 14:-2
+    # get feature map of state 
+    feature_map1 = feature_map_excel.iloc[:, 22:] 
+    feature_map2 = feature_map_excel.iloc[:, 1:22]
     feat_map = pd.concat([feature_map1, feature_map2], axis=1)
     feat_map = np.array(feat_map)
     return feat_map, fnid_idx, idx_fnid, states_list
@@ -89,13 +89,11 @@ def createTrajFromPolicy(start_fnid, end_fnid, trajs_len, traj_len, feature_map_
     return trajs
 
 
-def testRewardFile():
+def testRewardFile(feature_map_file,gpd_file,gpd_save_file,img_save_file):
     """
     test reward ckpt file trained by deepirl
     """
     lr = 0.02
-    feature_map_file = './data/SZ_tfidf.xlsx'
-    gpd_file = './data/ss_city_grid.shp'
     feat_map, _, idx_fnid, states_list = readFeatureMap(feature_map_file)
     nn_r = DeepIRLFC(feat_map.shape[1], lr, 40, 30)
     model_file = './model'
@@ -114,10 +112,10 @@ def testRewardFile():
         fnid = idx_fnid[i]
         idx = gdf[(gdf['fnid'] == fnid)].index
         gdf.iloc[idx, -1] = rewards[i]
-    gdf.to_file('./data/shenzhen_tfidf', driver='ESRI Shapefile', crs=4326,encoding='utf-8')
+    gdf.to_file(gpd_save_file, driver='ESRI Shapefile', crs=4326,encoding='utf-8')
     gdf.plot(column='reward', cmap='viridis', legend=False)
     plt.title('reward recovered from ckpt file')
-    plt.savefig('./img/SZ_reward.png', dpi=600)
+    plt.savefig(img_save_file, dpi=600)
     plt.show()
 
 
@@ -383,7 +381,11 @@ def actionPrecise():
     plt.show()
 
 if __name__ == "__main__":
-    testRewardFile()
+    feature_map_file="./data/nanshan_tfidf.csv"
+    gpd_file="./data/nanshan_tfidf.csv"
+    gpd_save_file="./data/nanshan_tfidf"
+    img_save_file="./img/nanshan_reward.png"
+    testRewardFile(feature_map_file,gpd_file,gpd_save_file,img_save_file)
 
     # testPolicy()
 
