@@ -32,7 +32,7 @@ N_ITERS = ARGS.n_iters
 RESTORE = ARGS.restore
 
 # get the transition probability between states
-feature_map_file = './data/nanshan_SF.csv'
+feature_map_file = './data/ns_SF.csv'
 feature_map_excel = pd.read_csv(feature_map_file)
 states_list = list(feature_map_excel['fnid'])
 fnid_idx = {}
@@ -63,12 +63,11 @@ for iteration in range(N_ITERS):
     T1 = time.time()
     this_reward=np.zeros((2,3,feat_map.shape[0]))
     for f in os.listdir(route_file_path):
-        print(f)
         genderAge = [0]*5
         gender,age=int(f[0]),int(f[2])
         genderAge[gender], genderAge[age] = gender,age
         trajs = []
-        routes_states = np.load(route_file_path+'/'+f)
+        routes_states = np.load(route_file_path+'/'+f,allow_pickle=True)
         for route_state in routes_states:
             sta_act = getActionOfStates(route_state)
             trajs.append(sta_act)
