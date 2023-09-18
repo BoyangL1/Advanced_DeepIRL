@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import geopandas as gpd
-
+import seaborn as sns
 
 def show_img(img):
     print(img.shape, img.dtype)
@@ -77,7 +77,7 @@ def rewardVisual(rewards, idx_fnid, gpd_file,title="", text=True):
     gdf.plot(column='reward', cmap='viridis')
     plt.title(title)
 
-'''
+
 def histKernel(x):
     plt.figure(dpi=120)
     rc = {'font.sans-serif': 'Times New Roman',
@@ -94,7 +94,7 @@ def histKernel(x):
                      )
     plt.savefig('./kernel.png',dpi=400)
     plt.show()
-'''
+
 
 if __name__ == "__main__":
     import pandas as pd

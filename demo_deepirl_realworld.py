@@ -4,7 +4,6 @@ import argparse
 import pandas as pd
 from collections import namedtuple
 
-import img_utils
 from realGrid import real_grid
 from realGrid import value_iteration
 from trajectory import *
@@ -58,6 +57,7 @@ pre_reward= np.zeros((2,3,feat_map.shape[0]),dtype=float)
 
 T0 = time.time()
 now_time = datetime.datetime.now()
+Step=namedtuple('Step',['state','action'])
 print('this training loop start at {}'.format(now_time))
 for iteration in range(N_ITERS):
     T1 = time.time()
@@ -65,12 +65,10 @@ for iteration in range(N_ITERS):
     for f in os.listdir(route_file_path):
         genderAge = [0]*5
         gender,age=int(f[0]),int(f[2])
-        genderAge[gender], genderAge[age] = gender,age
-        trajs = []
-        routes_states = np.load(route_file_path+'/'+f,allow_pickle=True)
-        for route_state in routes_states:
-            sta_act = getActionOfStates(route_state)
-            trajs.append(sta_act)
+        genderAge[gender], genderAge[age+2] = 1,1
+        trajs = np.load(route_file_path+'/'+f,allow_pickle=True)
+        trajs = trajs.tolist()
+        print("load trajectory done!")
         rewards, nn_r = deepMaxEntIRL2(nn_r, feat_map, p_a, GAMMA, trajs,
                                  LEARNING_RATE, fnid_idx, idx_fnid, gpd_file, genderAge, RESTORE)
         this_reward[gender,age,:]=np.array(rewards).reshape(feat_map.shape[0])
@@ -85,7 +83,3 @@ for iteration in range(N_ITERS):
         print('the difference of reward is less than 0.001, then break the loop')
         break
     pre_reward=this_reward  
-# img_utils.rewardVisual(rewards, idx_fnid, gpd_file,"recovered reward map")
-# plt.savefig('./img/reward_final.png')
-# plt.show()
-# plt.close()

@@ -171,7 +171,7 @@ def stateVisitFreq(trajs, fnid_idx, n_states):
 
 def deepMaxEntIRL(feat_map, P_a, gamma, trajs, lr, n_iters, fnid_idx, idx_fnid, gpd_file, genderAge, restore=True):
     """
-    Maximum Entropy Inverse Reinforcement Learning (Maxent IRL)
+    Maximum Entropy Inverse Reinforcement Learning (Maxent IRL), without personalized features
 
     inputs:
       feat_map    NxD matrix - the features for each state
@@ -256,6 +256,9 @@ def deepMaxEntIRL(feat_map, P_a, gamma, trajs, lr, n_iters, fnid_idx, idx_fnid, 
 
 
 def deepMaxEntIRL2(nn_r, feat_map, P_a, gamma, trajs, lr, fnid_idx, idx_fnid, gpd_file, genderAge, restore):
+    """
+    Maximum Entropy Inverse Reinforcement Learning (Maxent IRL), with personalized features
+    """    
     N_STATES, _, N_ACTIONS = np.shape(P_a)
     nn_r.genderAge = genderAge
 
@@ -271,7 +274,8 @@ def deepMaxEntIRL2(nn_r, feat_map, P_a, gamma, trajs, lr, fnid_idx, idx_fnid, gp
     # optimize the neural network by the difference between 
     # expected svf(state visit frequency) and real svf
     oh = [genderAge for _ in range(feat_map.shape[0])]
-    rewards = nn_r.get_rewards(feat_map, oh)
+    rewards = normalize(nn_r.get_rewards(feat_map, oh))
+    print("begin value iteration")
     values, policy = value_iteration.value_iteration(
         P_a, rewards, gamma, error=0.01, deterministic=True)
     np.save("./model/policy_realworld.npy", policy)
