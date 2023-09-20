@@ -10,7 +10,7 @@ import tf_utils
 from utils import *
 import time
 
-
+Step=namedtuple('Step',['state','action'])
 class DeepIRLFC:
     def __init__(self, n_input, lr, genderAge, n_h1=400, n_h2=300, l2=0.5, name='deep_irl_fc'):
         """initialize DeepIRl, construct function between feature and reward
@@ -28,6 +28,7 @@ class DeepIRLFC:
         self.n_h1 = n_h1
         self.n_h2 = n_h2
         self.name = name
+        self.embedding_dim = 32
         self.genderAge = genderAge
 
         self.sess = tf.Session()
@@ -62,14 +63,18 @@ class DeepIRLFC:
             input_onehot= gender and age parameters
         """
         input_s = tf.placeholder(tf.float32, [None, self.n_input])
-        input_onehot = tf.placeholder(tf.float32, [None, len(self.genderAge)])
+        input_onehot = tf.placeholder(tf.int32, [None, len(self.genderAge)])
+
+        embedding_matrix = tf.get_variable("embedding_matrix", [self.embedding_dim])
+        
         with tf.variable_scope(name):
             fc1 = tf_utils.fc(input_s, self.n_h1, scope="fc1", activation_fn=tf.nn.elu,
                               initializer=tf.contrib.layers.variance_scaling_initializer(mode="FAN_IN"))
             fc2 = tf_utils.fc(fc1, self.n_h2, scope="fc2", activation_fn=tf.nn.elu,
                               initializer=tf.contrib.layers.variance_scaling_initializer(mode="FAN_IN"))
-
-            fc3 = tf_utils.fc(input_onehot, self.n_h1, scope="fc3", activation_fn=tf.nn.elu,
+            
+            embedded_input_onehot = tf.nn.embedding_lookup(embedding_matrix, input_onehot)
+            fc3 = tf_utils.fc(embedded_input_onehot, self.n_h1, scope="fc3", activation_fn=tf.nn.elu,
                               initializer=tf.contrib.layers.variance_scaling_initializer(mode="FAN_IN"))
             fc4 = tf_utils.fc(fc3, self.n_h2, scope="fc4", activation_fn=tf.nn.elu,
                               initializer=tf.contrib.layers.variance_scaling_initializer(mode="FAN_IN"))
@@ -277,7 +282,7 @@ def deepMaxEntIRL2(nn_r, feat_map, P_a, gamma, trajs, lr, fnid_idx, idx_fnid, gp
     rewards = normalize(nn_r.get_rewards(feat_map, oh))
     print("begin value iteration")
     values, policy = value_iteration.value_iteration(
-        P_a, rewards, gamma, error=0.01, deterministic=True)
+        P_a, rewards, gamma, error=0.1, deterministic=True)
     np.save("./model/policy_realworld.npy", policy)
     print("The calculation of value and policy is finished!")
     # compute expected svf

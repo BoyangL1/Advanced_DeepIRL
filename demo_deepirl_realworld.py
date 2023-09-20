@@ -17,8 +17,8 @@ PARSER.add_argument('-a', '--act_random', default=0.2,
                     type=float, help='probability of acting randomly')
 PARSER.add_argument('-lr', '--learning_rate', default=0.02,
                     type=float, help='learning rate')
-PARSER.add_argument('-ni', '--n_iters', default=100,
-                    type=int, help='number of iterations')
+PARSER.add_argument('-ni', '--n_epochs', default=100,
+                    type=int, help='number of epochs')
 PARSER.add_argument('--restore', dest='restore', action='store_true',
                     help='restore graph from existed checkpoint file')
 ARGS = PARSER.parse_args()
@@ -27,7 +27,7 @@ print(ARGS)
 GAMMA = ARGS.gamma
 ACT_RAND = ARGS.act_random
 LEARNING_RATE = ARGS.learning_rate
-N_ITERS = ARGS.n_iters
+N_EPOCHS = ARGS.n_epochs
 RESTORE = ARGS.restore
 
 # get the transition probability between states
@@ -59,7 +59,7 @@ T0 = time.time()
 now_time = datetime.datetime.now()
 Step=namedtuple('Step',['state','action'])
 print('this training loop start at {}'.format(now_time))
-for iteration in range(N_ITERS):
+for epoch in range(N_EPOCHS):
     T1 = time.time()
     this_reward=np.zeros((2,3,feat_map.shape[0]))
     for f in os.listdir(route_file_path):
@@ -74,8 +74,8 @@ for iteration in range(N_ITERS):
         this_reward[gender,age,:]=np.array(rewards).reshape(feat_map.shape[0])
 
     T2 = time.time()
-    print("this iteration lasts {:.2f}s, the loop lasts {:.2f}s, the {}th iteration end at {}".format(
-        T2-T1, T2-T0, iteration, datetime.datetime.now()))
+    print("this epoch lasts {:.2f}s, the loop lasts {:.2f}s, the {}th epoch end at {}".format(
+        T2-T1, T2-T0, epoch, datetime.datetime.now()))
     
     reward_difference=np.mean(this_reward-pre_reward)
     print("the current reward difference is {}".format(reward_difference))
