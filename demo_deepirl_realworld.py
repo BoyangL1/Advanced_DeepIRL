@@ -69,7 +69,7 @@ for epoch in range(N_EPOCHS):
         trajs = np.load(route_file_path+'/'+f,allow_pickle=True)
         trajs = trajs.tolist()
         print("load trajectory done!")
-        rewards, nn_r = deepMaxEntIRL2(nn_r, feat_map, p_a, GAMMA, trajs,
+        rewards, nn_r = deepMaxEntIRL2(nn_r,route_file_path+'/'+f,feature_map_file, feat_map, p_a, GAMMA, trajs,
                                  LEARNING_RATE, fnid_idx, idx_fnid, gpd_file, genderAge, RESTORE)
         this_reward[gender,age,:]=np.array(rewards).reshape(feat_map.shape[0])
 
@@ -82,4 +82,4 @@ for epoch in range(N_EPOCHS):
     if abs(reward_difference) <= 0.001:
         print('the difference of reward is less than 0.001, then break the loop')
         break
-    pre_reward=this_reward  
+    pre_reward=this_reward

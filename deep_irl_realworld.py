@@ -9,6 +9,7 @@ import img_utils
 import tf_utils
 from utils import *
 import time
+from traj_policy_logll import *
 
 Step=namedtuple('Step',['state','action'])
 class DeepIRLFC:
@@ -260,7 +261,7 @@ def deepMaxEntIRL(feat_map, P_a, gamma, trajs, lr, n_iters, fnid_idx, idx_fnid, 
     return normalize(rewards)
 
 
-def deepMaxEntIRL2(nn_r, feat_map, P_a, gamma, trajs, lr, fnid_idx, idx_fnid, gpd_file, genderAge, restore):
+def deepMaxEntIRL2(nn_r,traj_file,feature_map_file, feat_map, P_a, gamma, trajs, lr, fnid_idx, idx_fnid, gpd_file, genderAge, restore):
     """
     Maximum Entropy Inverse Reinforcement Learning (Maxent IRL), with personalized features
     """    
@@ -282,9 +283,13 @@ def deepMaxEntIRL2(nn_r, feat_map, P_a, gamma, trajs, lr, fnid_idx, idx_fnid, gp
     rewards = normalize(nn_r.get_rewards(feat_map, oh))
     print("begin value iteration")
     values, policy = value_iteration.value_iteration(
-        P_a, rewards, gamma, error=0.1, deterministic=True)
+        P_a, rewards, gamma, error=5, deterministic=True)
     np.save("./model/policy_realworld.npy", policy)
     print("The calculation of value and policy is finished!")
+    # add traj log likelihood
+    real_traj = trajFromExpert(traj_file)
+    llrs = [trajLogLikelihood(feature_map_file, traj, trajFromPolicyFile(policy, fnid_idx, int(traj[0]), len(traj))) for traj in real_traj]
+    print("The log-likelihood ratio of the generated trajectory to the true trajectory is {}".format(np.nanmean(llrs)))
     # compute expected svf
     mu_exp = expectStateVisitFreq(
         P_a, gamma, trajs, fnid_idx, policy, deterministic=True)
