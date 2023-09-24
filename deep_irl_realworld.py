@@ -277,8 +277,7 @@ def deepMaxEntIRL2(nn_r,traj_file,feature_map_file, feat_map, P_a, gamma, trajs,
 
     # find state visitation frequencies using demonstrations
     mu_D = stateVisitFreq(trajs, fnid_idx, N_STATES)
-    # optimize the neural network by the difference between 
-    # expected svf(state visit frequency) and real svf
+    # optimize the neural network by the difference between expected svf(state visit frequency) and real svf
     oh = [genderAge for _ in range(feat_map.shape[0])]
     rewards = normalize(nn_r.get_rewards(feat_map, oh))
     print("begin value iteration")
