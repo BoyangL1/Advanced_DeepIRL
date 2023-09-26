@@ -49,12 +49,12 @@ def causalGraphPlot(graph, labels: list, pic_path: str, model_path: str):
     G = nx.DiGraph()
 
     for i in range(len(graph)):
-        if i<=8:
-            G.add_node(labels[i],partition=1)
-        elif 8<i<30:
-            G.add_node(labels[i],partition=2)
+        if i <= 8:
+            G.add_node(labels[i], partition=1)
+        elif 8 < i < 30:
+            G.add_node(labels[i], partition=2)
         else:
-            G.add_node(labels[i],partition=3)
+            G.add_node(labels[i], partition=3)
         for j in range(len(graph[i])):
             if graph[i][j]:
                 # G.add_edges_from([(labels[i], labels[j])])
@@ -63,7 +63,7 @@ def causalGraphPlot(graph, labels: list, pic_path: str, model_path: str):
 
     nx.write_gexf(G, model_path)
     nx.draw(G, with_labels=True)
-    plt.savefig(pic_path)
+    # plt.savefig(pic_path)
     plt.show()
 
 
@@ -193,7 +193,7 @@ def extendCpdag(graph):
                         # if unfaithful, skip
                         continue
                     if pdag[b][c] and pdag[c][b]:
-                        pdag[b][c]=graph['sk'][b][c]
+                        pdag[b][c] = graph['sk'][b][c]
                         pdag[c][b] = 0
                     elif pdag[b][c] == 0 and pdag[c][b]:
                         pdag[b][c] = pdag[c][b] = 2
@@ -226,7 +226,7 @@ def extendCpdag(graph):
                     isC.append(i)
             if len(isC) > 0:
                 if pdag[a][b] and pdag[b][a]:
-                    pdag[a][b]=graph['sk'][a][b]
+                    pdag[a][b] = graph['sk'][a][b]
                     pdag[b][a] = 0
                 elif pdag[a][b] == 0 and pdag[b][a]:
                     pdag[a][b] = pdag[b][a] = 2
@@ -265,7 +265,7 @@ def extendCpdag(graph):
                         if 'unfTriples' in graph.keys() and ((c1, a, c2) in graph['unfTriples'] or (c2, a, c1) in graph['unfTriples']):
                             continue
                         if search_pdag[a][b] and search_pdag[b][a]:
-                            pdag[a][b]=graph['sk'][a][b]
+                            pdag[a][b] = graph['sk'][a][b]
                             pdag[b][a] = 0
                             break
                         elif search_pdag[a][b] == 0 and search_pdag[b][a]:
@@ -374,14 +374,50 @@ def gaussCiTest(suffstat, x, y, S):
 
 
 if __name__ == '__main__':
-    file_path = './data/poor_feat_reward.csv'
-    image_path = './img/poor_causalGraph.png'
-    model_path = './data/poor_causalGraph.gexf'
-    skeleton_path = './data/poor_skeleton.csv'
+    file_path = './data/nanshan_reward.csv'
+    image_path = './img/causalGraph.png'
+    model_path = './data/causalGraph.gexf'
+    skeleton_path = './data/skeleton.csv'
 
     data = pd.read_csv(file_path)
-    labels = ['MainRoad', 'InnerRoad', 'CityBranch', 'UrbanSecondary', 'SuburbanRoad', 'SideWalks', 'FreeWay', 'CycleWay', 'UnBuiltRoad', 'Transportation', 'Accommodation', 'Sport', 'Public', 'Enterprises', 'Medical', 'Commercial', 'Indoor', 'Motorcycle', 'Government', 'CarService', 'CarRepair', 'CarSale',
-              'Life', 'Science&Education', 'Shopping', 'PassFacilities', 'RoadFurniture', 'Finance', 'Attractions', 'Food&Beverages', 'Reward']
+    labels = [
+        'Population density',
+        'Land Use Mix',
+        'Open Space Ratio',
+        'Intersections',
+        'Center',
+        'Airport',
+        'Railway',
+        'Dock',
+        'Coach',
+        'Expressway',
+        'Cycleway',
+        'Suburban Road',
+        'City Branch',
+        'Inner Road',
+        'Main Road',
+        'Not Built Road',
+        'SideWalk',
+        'Urban Secondary',
+        'Attractions',
+        'Food&Beverages',
+        'Tranportation',
+        'Sport',
+        'Public',
+        'Enterprises',
+        'Medical',
+        'Government',
+        'Life',
+        'Education&Science',
+        'Shopping',
+        'Finance',
+        'Male',
+        'Female',
+        'Young',
+        'Middle',
+        'Old',
+        'Reward'
+    ]
 
     row_count = len(labels)
     graph = pc(
@@ -394,9 +430,9 @@ if __name__ == '__main__':
     )
 
     df_graph = pd.DataFrame(graph)
-    df_graph.to_csv('./data/poor_edge_weight.csv', index=False)
+    df_graph.to_csv('./data/edge_weight.csv', index=False)
 
-    start = 30  # index for 'reward' label
+    start = -1  # index for 'reward' label
     vis = [0 for i in range(row_count)]
     vis[start] = True
     path = []

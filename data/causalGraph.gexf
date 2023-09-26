@@ -1,0 +1,311 @@
+<?xml version='1.0' encoding='utf-8'?>
+<gexf version="1.2" xmlns="http://www.gexf.net/1.2draft" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.gexf.net/1.2draft http://www.gexf.net/1.2draft/gexf.xsd">
+  <meta lastmodifieddate="2023-09-26">
+    <creator>NetworkX 2.4</creator>
+  </meta>
+  <graph defaultedgetype="directed" mode="static" name="">
+    <attributes class="node" mode="static">
+      <attribute id="0" title="partition" type="long" />
+    </attributes>
+    <nodes>
+      <node id="Population density" label="Population density">
+        <attvalues>
+          <attvalue for="0" value="1" />
+        </attvalues>
+      </node>
+      <node id="Sport" label="Sport">
+        <attvalues>
+          <attvalue for="0" value="2" />
+        </attvalues>
+      </node>
+      <node id="Not Built Road" label="Not Built Road">
+        <attvalues>
+          <attvalue for="0" value="2" />
+        </attvalues>
+      </node>
+      <node id="Attractions" label="Attractions">
+        <attvalues>
+          <attvalue for="0" value="2" />
+        </attvalues>
+      </node>
+      <node id="Shopping" label="Shopping">
+        <attvalues>
+          <attvalue for="0" value="2" />
+        </attvalues>
+      </node>
+      <node id="Land Use Mix" label="Land Use Mix">
+        <attvalues>
+          <attvalue for="0" value="1" />
+        </attvalues>
+      </node>
+      <node id="Coach" label="Coach">
+        <attvalues>
+          <attvalue for="0" value="1" />
+        </attvalues>
+      </node>
+      <node id="Suburban Road" label="Suburban Road">
+        <attvalues>
+          <attvalue for="0" value="2" />
+        </attvalues>
+      </node>
+      <node id="Education&amp;Science" label="Education&amp;Science">
+        <attvalues>
+          <attvalue for="0" value="2" />
+        </attvalues>
+      </node>
+      <node id="SideWalk" label="SideWalk">
+        <attvalues>
+          <attvalue for="0" value="2" />
+        </attvalues>
+      </node>
+      <node id="City Branch" label="City Branch">
+        <attvalues>
+          <attvalue for="0" value="2" />
+        </attvalues>
+      </node>
+      <node id="Tranportation" label="Tranportation">
+        <attvalues>
+          <attvalue for="0" value="2" />
+        </attvalues>
+      </node>
+      <node id="Male" label="Male">
+        <attvalues>
+          <attvalue for="0" value="3" />
+        </attvalues>
+      </node>
+      <node id="Enterprises" label="Enterprises">
+        <attvalues>
+          <attvalue for="0" value="2" />
+        </attvalues>
+      </node>
+      <node id="Inner Road" label="Inner Road">
+        <attvalues>
+          <attvalue for="0" value="2" />
+        </attvalues>
+      </node>
+      <node id="Airport" label="Airport">
+        <attvalues>
+          <attvalue for="0" value="1" />
+        </attvalues>
+      </node>
+      <node id="Old" label="Old">
+        <attvalues>
+          <attvalue for="0" value="3" />
+        </attvalues>
+      </node>
+      <node id="Intersections" label="Intersections">
+        <attvalues>
+          <attvalue for="0" value="1" />
+        </attvalues>
+      </node>
+      <node id="Food&amp;Beverages" label="Food&amp;Beverages">
+        <attvalues>
+          <attvalue for="0" value="2" />
+        </attvalues>
+      </node>
+      <node id="Young" label="Young">
+        <attvalues>
+          <attvalue for="0" value="3" />
+        </attvalues>
+      </node>
+      <node id="Expressway" label="Expressway">
+        <attvalues>
+          <attvalue for="0" value="2" />
+        </attvalues>
+      </node>
+      <node id="Life" label="Life">
+        <attvalues>
+          <attvalue for="0" value="2" />
+        </attvalues>
+      </node>
+      <node id="Open Space Ratio" label="Open Space Ratio">
+        <attvalues>
+          <attvalue for="0" value="1" />
+        </attvalues>
+      </node>
+      <node id="Reward" label="Reward">
+        <attvalues>
+          <attvalue for="0" value="3" />
+        </attvalues>
+      </node>
+      <node id="Urban Secondary" label="Urban Secondary">
+        <attvalues>
+          <attvalue for="0" value="2" />
+        </attvalues>
+      </node>
+      <node id="Female" label="Female">
+        <attvalues>
+          <attvalue for="0" value="3" />
+        </attvalues>
+      </node>
+      <node id="Center" label="Center">
+        <attvalues>
+          <attvalue for="0" value="1" />
+        </attvalues>
+      </node>
+      <node id="Railway" label="Railway">
+        <attvalues>
+          <attvalue for="0" value="1" />
+        </attvalues>
+      </node>
+      <node id="Public" label="Public">
+        <attvalues>
+          <attvalue for="0" value="2" />
+        </attvalues>
+      </node>
+      <node id="Finance" label="Finance">
+        <attvalues>
+          <attvalue for="0" value="2" />
+        </attvalues>
+      </node>
+      <node id="Main Road" label="Main Road">
+        <attvalues>
+          <attvalue for="0" value="2" />
+        </attvalues>
+      </node>
+      <node id="Dock" label="Dock">
+        <attvalues>
+          <attvalue for="0" value="1" />
+        </attvalues>
+      </node>
+      <node id="Cycleway" label="Cycleway">
+        <attvalues>
+          <attvalue for="0" value="2" />
+        </attvalues>
+      </node>
+      <node id="Government" label="Government">
+        <attvalues>
+          <attvalue for="0" value="2" />
+        </attvalues>
+      </node>
+      <node id="Middle" label="Middle">
+        <attvalues>
+          <attvalue for="0" value="3" />
+        </attvalues>
+      </node>
+      <node id="Medical" label="Medical">
+        <attvalues>
+          <attvalue for="0" value="2" />
+        </attvalues>
+      </node>
+    </nodes>
+    <edges>
+      <edge id="0" source="Population density" target="Reward" weight="0.5748883828660509" />
+      <edge id="1" source="Population density" target="Land Use Mix" weight="-0.12005098423409002" />
+      <edge id="2" source="Population density" target="Coach" weight="-0.0649951451057721" />
+      <edge id="3" source="Population density" target="Government" weight="-0.09618865606279299" />
+      <edge id="4" source="Population density" target="SideWalk" weight="-0.03734785090329115" />
+      <edge id="5" source="Population density" target="City Branch" weight="-0.15845456761209148" />
+      <edge id="6" source="Population density" target="Medical" weight="-0.1190616066957287" />
+      <edge id="7" source="Sport" target="Enterprises" weight="-0.03420497267402646" />
+      <edge id="8" source="Sport" target="Government" weight="-0.13722290372543333" />
+      <edge id="9" source="Sport" target="Reward" weight="0.5571352481911992" />
+      <edge id="10" source="Sport" target="Finance" weight="-0.16115214848231543" />
+      <edge id="11" source="Not Built Road" target="Tranportation" weight="0.3359428470882919" />
+      <edge id="12" source="Not Built Road" target="Inner Road" weight="0.34006194363608283" />
+      <edge id="13" source="Not Built Road" target="Sport" weight="0.039510263070826564" />
+      <edge id="14" source="Not Built Road" target="Education&amp;Science" weight="0.030127551652907498" />
+      <edge id="15" source="Not Built Road" target="SideWalk" weight="0.24126516231596512" />
+      <edge id="16" source="Not Built Road" target="Urban Secondary" weight="0.08956113667437757" />
+      <edge id="17" source="Attractions" target="Tranportation" weight="0.03559614413000098" />
+      <edge id="18" source="Attractions" target="Government" weight="0.04321273018616773" />
+      <edge id="19" source="Land Use Mix" target="Railway" weight="0.11951103705747995" />
+      <edge id="20" source="Land Use Mix" target="Shopping" weight="-0.03803778919220381" />
+      <edge id="21" source="Land Use Mix" target="Reward" weight="0.972127445946431" />
+      <edge id="22" source="Land Use Mix" target="Suburban Road" weight="-0.0727833244612005" />
+      <edge id="23" source="Coach" target="Inner Road" weight="0.031206462899464577" />
+      <edge id="24" source="Coach" target="Life" weight="0.05310590249422378" />
+      <edge id="25" source="Coach" target="Urban Secondary" weight="0.06099199433784615" />
+      <edge id="26" source="Suburban Road" target="Public" weight="0.044101036775533765" />
+      <edge id="27" source="Suburban Road" target="Enterprises" weight="0.0441823801718133" />
+      <edge id="28" source="Suburban Road" target="Government" weight="0.059912728432515605" />
+      <edge id="29" source="Suburban Road" target="Education&amp;Science" weight="0.13343940974935056" />
+      <edge id="30" source="Suburban Road" target="City Branch" weight="-0.08013799642041299" />
+      <edge id="31" source="Suburban Road" target="Food&amp;Beverages" weight="0.0780222367666099" />
+      <edge id="32" source="SideWalk" target="Attractions" weight="0.033656221200743755" />
+      <edge id="33" source="SideWalk" target="Sport" weight="0.11175677792067229" />
+      <edge id="34" source="SideWalk" target="Government" weight="0.05067874387501208" />
+      <edge id="35" source="SideWalk" target="Education&amp;Science" weight="0.08037290438384996" />
+      <edge id="36" source="SideWalk" target="Finance" weight="0.06293395616975121" />
+      <edge id="37" source="SideWalk" target="Medical" weight="0.03870527905035567" />
+      <edge id="38" source="City Branch" target="Reward" weight="0.9710240677858825" />
+      <edge id="39" source="City Branch" target="Not Built Road" weight="-0.06854423307225407" />
+      <edge id="40" source="City Branch" target="Finance" weight="-0.12357544099980539" />
+      <edge id="41" source="Tranportation" target="Sport" weight="0.17255806930588877" />
+      <edge id="42" source="Tranportation" target="Education&amp;Science" weight="0.04835604018971643" />
+      <edge id="43" source="Tranportation" target="Reward" weight="0.4649350654409626" />
+      <edge id="44" source="Tranportation" target="Finance" weight="0.14465262410939758" />
+      <edge id="45" source="Tranportation" target="Government" weight="0.09756393964772328" />
+      <edge id="46" source="Male" target="Female" weight="-0.9999999" />
+      <edge id="47" source="Enterprises" target="Government" weight="0.06576831109980628" />
+      <edge id="48" source="Enterprises" target="Medical" weight="-0.031624863810903035" />
+      <edge id="49" source="Inner Road" target="Tranportation" weight="0.08258143232998248" />
+      <edge id="50" source="Inner Road" target="Enterprises" weight="-0.03216265922183588" />
+      <edge id="51" source="Inner Road" target="Finance" weight="0.0576621076193897" />
+      <edge id="52" source="Inner Road" target="Urban Secondary" weight="0.031545339167776326" />
+      <edge id="53" source="Inner Road" target="Main Road" weight="0.033709426379861775" />
+      <edge id="54" source="Airport" target="Railway" weight="0.6917424836030537" />
+      <edge id="55" source="Airport" target="Dock" weight="0.2563229018730143" />
+      <edge id="56" source="Airport" target="Coach" weight="-0.48915838141593404" />
+      <edge id="57" source="Airport" target="Center" weight="0.903867243180687" />
+      <edge id="58" source="Old" target="Young" weight="-0.9999999" />
+      <edge id="59" source="Old" target="Middle" weight="-0.9999999" />
+      <edge id="60" source="Intersections" target="Shopping" weight="-0.034698487746796" />
+      <edge id="61" source="Intersections" target="Reward" weight="0.6054115007788751" />
+      <edge id="62" source="Intersections" target="SideWalk" weight="-0.024051085758077247" />
+      <edge id="63" source="Intersections" target="City Branch" weight="-0.2238484240510531" />
+      <edge id="64" source="Intersections" target="Main Road" weight="-0.048677910730245674" />
+      <edge id="65" source="Food&amp;Beverages" target="Sport" weight="0.06413158210077614" />
+      <edge id="66" source="Food&amp;Beverages" target="Education&amp;Science" weight="0.08518382210045695" />
+      <edge id="67" source="Food&amp;Beverages" target="Medical" weight="0.0312736409756502" />
+      <edge id="68" source="Young" target="Old" weight="-0.9999999" />
+      <edge id="69" source="Young" target="Middle" weight="-0.9999999" />
+      <edge id="70" source="Expressway" target="Attractions" weight="0.03730877784511057" />
+      <edge id="71" source="Expressway" target="Life" weight="0.1996898921811105" />
+      <edge id="72" source="Expressway" target="Reward" weight="0.5216525864159299" />
+      <edge id="73" source="Expressway" target="Sport" weight="0.12837745447425697" />
+      <edge id="74" source="Expressway" target="Education&amp;Science" weight="0.09468470326492084" />
+      <edge id="75" source="Expressway" target="SideWalk" weight="0.04031146325341028" />
+      <edge id="76" source="Expressway" target="Suburban Road" weight="0.14706951776065602" />
+      <edge id="77" source="Expressway" target="Inner Road" weight="0.0640921130314567" />
+      <edge id="78" source="Expressway" target="Cycleway" weight="0.04827240473802988" />
+      <edge id="79" source="Expressway" target="Government" weight="0.13950563544150607" />
+      <edge id="80" source="Expressway" target="Finance" weight="0.13160577743271412" />
+      <edge id="81" source="Expressway" target="Medical" weight="0.05292748507491769" />
+      <edge id="82" source="Open Space Ratio" target="Urban Secondary" weight="0.039239077969603464" />
+      <edge id="83" source="Open Space Ratio" target="Shopping" weight="-0.025950357314248676" />
+      <edge id="84" source="Open Space Ratio" target="Cycleway" weight="0.052861817022130726" />
+      <edge id="85" source="Open Space Ratio" target="Reward" weight="-0.8753769691932768" />
+      <edge id="86" source="Open Space Ratio" target="Education&amp;Science" weight="-0.03177798405030869" />
+      <edge id="87" source="Open Space Ratio" target="Finance" weight="0.1572382513975765" />
+      <edge id="88" source="Urban Secondary" target="Tranportation" weight="0.06952208311083048" />
+      <edge id="89" source="Urban Secondary" target="Life" weight="0.03352152864128407" />
+      <edge id="90" source="Urban Secondary" target="Sport" weight="0.10060128133403165" />
+      <edge id="91" source="Female" target="Male" weight="-0.9999999" />
+      <edge id="92" source="Center" target="Railway" weight="-0.5719596372682719" />
+      <edge id="93" source="Center" target="Dock" weight="-0.6292760525157034" />
+      <edge id="94" source="Center" target="Coach" weight="0.6633427782223305" />
+      <edge id="95" source="Center" target="Airport" weight="0.903867243180687" />
+      <edge id="96" source="Railway" target="Dock" weight="0.046042335375971306" />
+      <edge id="97" source="Railway" target="Education&amp;Science" weight="0.03201750500234051" />
+      <edge id="98" source="Railway" target="Main Road" weight="0.04633515574148979" />
+      <edge id="99" source="Public" target="Government" weight="0.05286414530618383" />
+      <edge id="100" source="Public" target="Education&amp;Science" weight="0.06017319391624685" />
+      <edge id="101" source="Public" target="Reward" weight="-0.3628321190034976" />
+      <edge id="102" source="Finance" target="Reward" weight="0.8756356350047896" />
+      <edge id="103" source="Main Road" target="Life" weight="0.10197076743118524" />
+      <edge id="104" source="Main Road" target="Government" weight="0.07177307133419136" />
+      <edge id="105" source="Main Road" target="Enterprises" weight="0.032321447916411374" />
+      <edge id="106" source="Main Road" target="Sport" weight="0.07035113154523005" />
+      <edge id="107" source="Main Road" target="SideWalk" weight="0.027491622773907296" />
+      <edge id="108" source="Main Road" target="Finance" weight="0.09966000566229691" />
+      <edge id="109" source="Dock" target="Shopping" weight="-0.033332112802356664" />
+      <edge id="110" source="Dock" target="Coach" weight="0.8416050485050984" />
+      <edge id="111" source="Cycleway" target="Enterprises" weight="0.06333330283532923" />
+      <edge id="112" source="Government" target="Reward" weight="0.6154485016565363" />
+      <edge id="113" source="Middle" target="Young" weight="-0.9999999" />
+      <edge id="114" source="Middle" target="Old" weight="-0.9999999" />
+      <edge id="115" source="Medical" target="Reward" weight="0.713410391571565" />
+    </edges>
+  </graph>
+</gexf>
