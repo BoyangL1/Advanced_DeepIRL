@@ -119,7 +119,7 @@ if __name__ == "__main__":
                 # Print the loss for monitoring
             print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item()}')
 
-        if loss.item() < 0.01:
+        if loss.item() < 0.001:
             print("Training completed, end the training loop!")
             torch.save(model.state_dict(), './model/dnn psl/model_weights.pth')
             break
