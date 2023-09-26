@@ -55,6 +55,47 @@ def getRewardFileRLogit(feat_map,genderAge):
     rewards = normalize(np.dot(feat_map, theta))
     return rewards
 
+def trajContrast(route, real_map, gpd_file,if_show):
+    """
+    Comparison of real and generated trajectories
+
+    Args:
+        routes_file 
+        real_map : real map class
+        gpd_file 
+    """    
+    start_fnid = route[0]
+    end_fnid = route[-1]
+
+    route_generate = astar(real_map, start_fnid, end_fnid)
+
+    gdf = gpd.read_file(gpd_file)
+    ColNames = gdf.columns
+    route_df = pd.DataFrame(columns=ColNames)
+    route_generate_df = pd.DataFrame(columns=ColNames)
+
+    for fnid in route:
+        idx = gdf[(gdf['fnid'] == fnid)].index
+        route_df = route_df.append(gdf.iloc[idx, :], ignore_index=True)
+    for fnid in route_generate:
+        idx = gdf[(gdf['fnid'] == fnid)].index
+        route_generate_df = route_generate_df.append(
+            gdf.iloc[idx, :], ignore_index=True)
+    route_generate_gdf = gpd.GeoDataFrame(
+        route_generate_df, geometry="geometry")
+    route_gdf = gpd.GeoDataFrame(
+        route_df, geometry="geometry")
+
+    plt.rcParams["font.family"] = "Times New Roman"
+    _, ax = plt.subplots()
+    ax=gdf.plot(ax=ax, color='darkgray', label='map')
+    ax=route_gdf.plot(ax=ax, color='lightsalmon',label = "real trajecory")
+    ax=route_generate_gdf.plot(ax=ax, color='lightskyblue',label = "generated trajecory")
+    ax.axis('off')
+    plt.title('trajectory contrast')
+    if if_show:
+        plt.show()
+
 def trajEvaluate(routes_file,real_map,gpd_file,save_picture=False):
     routes = np.load(routes_file)
     all_length=0
@@ -98,8 +139,13 @@ if __name__ == "__main__":
     rewards = getRewardFileRLogit(feat_map,genderAge).tolist()
     cost = [1-r for r in rewards]
 
-    # Adjust the ratio of cost
     real_map = Map(states_list, fnid_idx, idx_fnid, cost*10)
+   
+    # # Trjectory comparison
+    # routes = np.load(routes_file)
+    # route_idx = np.random.randint(0, len(routes)-1)
+    # route = routes[route_idx]
+    # trajContrast(route, real_map, gpd_file, True)
 
     # trajectory evaluation
     avg_length,list_length=trajEvaluate(routes_file,real_map,gpd_file)
