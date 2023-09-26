@@ -13,17 +13,20 @@ class Node(object):
         self.g = g
         self.h = h
         self.c=cost
+        self.len=1
         self.father = father
 
     def calDist(self,s_state,e_state):
         s_x,s_y=s_state%357,s_state//357
         e_x,e_y=e_state%357,e_state//357
-        return (abs(s_x-e_x)+abs(s_y-e_y))*10
+        dx = abs(s_x - e_x)
+        dy = abs(s_y - e_y)
+        return math.sqrt(dx * dx + dy * dy)
 
     def getNeighbor(self,mapState,end_state):
         s =self.s
         result = []
-
+        self.len+=1
         def calCost(s_state):
             nonlocal mapState
             idx=mapState.fnid_idx[s_state]
@@ -31,42 +34,42 @@ class Node(object):
     #up
         if (s+357) in mapState.states:
             start_state=s+357
-            upNode = Node(start_state,self.g+10,self.calDist(start_state,end_state),calCost(start_state),self)
+            upNode = Node(start_state,self.g+1,self.calDist(start_state,end_state),calCost(start_state),self)
             result.append(upNode)
     #down
         if (s-357) in mapState.states:
             start_state=s-357
-            upNode = Node(start_state,self.g+10,self.calDist(start_state,end_state),calCost(start_state),self)
+            upNode = Node(start_state,self.g+1,self.calDist(start_state,end_state),calCost(start_state),self)
             result.append(upNode)
     #left
         if (s-1) in mapState.states:
             start_state=s-1
-            upNode = Node(start_state,self.g+10,self.calDist(start_state,end_state),calCost(start_state),self)
+            upNode = Node(start_state,self.g+1,self.calDist(start_state,end_state),calCost(start_state),self)
             result.append(upNode)
     #right
         if (s+1) in mapState.states:
             start_state=s+1
-            upNode = Node(start_state,self.g+10,self.calDist(start_state,end_state),calCost(start_state),self)
+            upNode = Node(start_state,self.g+1,self.calDist(start_state,end_state),calCost(start_state),self)
             result.append(upNode)
     #up-left
         if (s+356) in mapState.states:
             start_state=s+356
-            upNode = Node(start_state,self.g+14,self.calDist(start_state,end_state),calCost(start_state),self)
+            upNode = Node(start_state,self.g+1.4,self.calDist(start_state,end_state),calCost(start_state),self)
             result.append(upNode)
     #up-right
         if (s+358) in mapState.states:
             start_state=s+358
-            upNode = Node(start_state,self.g+14,self.calDist(start_state,end_state),calCost(start_state),self)
+            upNode = Node(start_state,self.g+1.4,self.calDist(start_state,end_state),calCost(start_state),self)
             result.append(upNode)
     #down-left
         if (s-358) in mapState.states:
             start_state=s-358
-            upNode = Node(start_state,self.g+14,self.calDist(start_state,end_state),calCost(start_state),self)
+            upNode = Node(start_state,self.g+1.4,self.calDist(start_state,end_state),calCost(start_state),self)
             result.append(upNode)
     #down-right
         if (s-356) in mapState.states:
             start_state=s-356
-            upNode = Node(start_state,self.g+14,self.calDist(start_state,end_state),calCost(start_state),self)
+            upNode = Node(start_state,self.g+1.4,self.calDist(start_state,end_state),calCost(start_state),self)
             result.append(upNode)
 
         return result
@@ -85,7 +88,7 @@ class Node(object):
                     i.g = self.g
 
 def getKeyforSort(element:Node):
-    return element.g+element.c #element, do not plus element.h
+    return element.g+element.c*element.len+element.h
     
 def astar(workMap,start_state,end_state):
     startNode = Node(start_state, 0, 0, 0, None)
