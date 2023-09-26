@@ -98,6 +98,7 @@ if __name__ == "__main__":
     rewards = getRewardFileRLogit(feat_map,genderAge).tolist()
     cost = [1-r for r in rewards]
 
+    # Adjust the ratio of cost
     real_map = Map(states_list, fnid_idx, idx_fnid, cost*10)
 
     # trajectory evaluation
