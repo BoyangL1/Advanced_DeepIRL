@@ -41,7 +41,7 @@ def testRewardFile(feature_map_file,gpd_file,gpd_save_file,img_save_file,genderA
     # load parametersf
     theta = np.load('./model/rlogit_realworld.npy')
     rewards = np.dot(feat_map, theta)
-    pre_reward=normalize(rewards)
+    rewards=normalize(rewards)
     # visualize reward through geopandas
     gdf = gpd.read_file(gpd_file)
     gdf['reward'] = 0
