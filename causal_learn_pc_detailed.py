@@ -49,9 +49,9 @@ def causalGraphPlot(graph, labels: list, pic_path: str, model_path: str):
     G = nx.DiGraph()
 
     for i in range(len(graph)):
-        if i <= 8:
+        if i <= 29:
             G.add_node(labels[i], partition=1)
-        elif 8 < i < 30:
+        elif 29 < i < 35:
             G.add_node(labels[i], partition=2)
         else:
             G.add_node(labels[i], partition=3)
