@@ -86,6 +86,11 @@ This project is a collection of algorithms and models dedicated to "Deep Inverse
 - **Shapely**: 1.6.4.post2
 - **tensorflow**: 0.12.1
 
+## Data Availability
+
+Due to individual privacy concerns, we only provide geographical data for the training region along with a limited set of encrypted individual trajectory data.
+
+
 ## Results and Visualizations
 
 ### DeepIRL
