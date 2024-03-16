@@ -102,6 +102,9 @@ Due to individual privacy concerns, we only provide geographical data for the tr
 ### Reward and Likelihood Plot
 ![Reward and Likelihood Plot](img/reward_and_likelihood_plot.png)
 
+### Dynamic Traffic Equilibrium
+![Dynamic Traffic Equilibrium](img/dta.png)
+
 ### Reward Map based on IC
 ![Reward Map based on IC](img/reward_map_based_on_IC.png)
 
