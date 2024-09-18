@@ -1,7 +1,7 @@
 # MEDIRL-IC
 
 ## Atricle
-**Enhancing Pedestrian Route Choice Models through Maximum-Entropy Deep Inverse Reinforcement Learning with Individual Covariates (MEDIRL-IC)**: This article is currently accepted by IEEE Transactions on Intelligent Tranportation System.
+**Enhancing Pedestrian Route Choice Models through Maximum-Entropy Deep Inverse Reinforcement Learning with Individual Covariates (MEDIRL-IC)**: This article has been accepted by IEEE Transactions on Intelligent Tranportation System.
 
 ## Introduction
 
