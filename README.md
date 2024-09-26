@@ -1,7 +1,7 @@
 # MEDIRL-IC
 
-## Atricle
-**Enhancing Pedestrian Route Choice Models through Maximum-Entropy Deep Inverse Reinforcement Learning with Individual Covariates (MEDIRL-IC)**: This article has been accepted by IEEE Transactions on Intelligent Tranportation System.
+\section*{Article}
+\textbf{Enhancing Pedestrian Route Choice Models through Maximum-Entropy Deep Inverse Reinforcement Learning with Individual Covariates (MEDIRL-IC):} This article has been accepted for publication in \textit{IEEE Transactions on Intelligent Transportation Systems}. You can access it via \href{https://ieeexplore.ieee.org/document/10689250}{IEEE Xplore}.
 
 ## Introduction
 
@@ -121,3 +121,21 @@ Due to individual privacy concerns, we only provide geographical data for the tr
 ## License and Credits
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Citation
+
+Li, B., & Zhang, W. (2024). Enhancing Pedestrian Route Choice Models Through Maximum-Entropy Deep Inverse Reinforcement Learning With Individual Covariates (MEDIRL-IC). *IEEE Transactions on Intelligent Transportation Systems*, 1-18. https://doi.org/10.1109/TITS.2024.3457680
+
+\begin{bibtex}
+@ARTICLE{10689250,
+  author={Li, Boyang and Zhang, Wenjia},
+  journal={IEEE Transactions on Intelligent Transportation Systems}, 
+  title={Enhancing Pedestrian Route Choice Models Through Maximum-Entropy Deep Inverse Reinforcement Learning With Individual Covariates (MEDIRL-IC)}, 
+  year={2024},
+  volume={},
+  number={},
+  pages={1-18},
+  keywords={Pedestrians; Analytical models; Decision making; Predictive models; Reinforcement learning; Biological system modeling; Trajectory; Deep inverse reinforcement learning; pedestrian route choice; causal discovery; cell phone signaling},
+  doi={10.1109/TITS.2024.3457680}
+}
+\end{bibtex}
